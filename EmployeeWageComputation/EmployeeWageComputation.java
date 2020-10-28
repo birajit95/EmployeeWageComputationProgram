@@ -1,4 +1,8 @@
 public class EmployeeWageComputation{
+    
+
+    private final int WAGE_PER_HOUR=20;
+    private final int FULL_TIME=8;
 
     public static void welcomeMessage(){
         System.out.println("Welcome to Employee Wage Computation Program");
@@ -13,10 +17,17 @@ public class EmployeeWageComputation{
         }
     }
 
+    public int getDailyWage(){
+        int workingHourPerDay=FULL_TIME;
+        return workingHourPerDay*this.WAGE_PER_HOUR;
+    }
+
     public static void main(String[] args){
         EmployeeWageComputation.welcomeMessage();
         
         EmployeeWageComputation empObj = new EmployeeWageComputation();
         System.out.println(empObj.getAttendance());
+        System.out.println(empObj.getDailyWage());
+
     }
 }
