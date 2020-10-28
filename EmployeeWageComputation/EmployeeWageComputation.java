@@ -4,6 +4,8 @@ public class EmployeeWageComputation{
     private final int WAGE_PER_HOUR=20;
     private final int FULL_TIME=8;
     private final int PART_TIME=4;
+    private final int MAX_NO_OF_DAYS=20;
+
 
 
     public static void welcomeMessage(){
@@ -18,6 +20,7 @@ public class EmployeeWageComputation{
             return "absent";
         }
     }
+
     public int getWorkingHourPerDay(){
         int workingHourPerDay;
         Random random = new Random();
@@ -39,6 +42,10 @@ public class EmployeeWageComputation{
     public int getDailyWage(){
         int workingHourPerDay=this.getWorkingHourPerDay();
         return workingHourPerDay*this.WAGE_PER_HOUR;
+    }
+
+    public int getMonthlyWage(){
+        return this.getDailyWage()*this.MAX_NO_OF_DAYS;
     }
 
     public static void main(String[] args){
