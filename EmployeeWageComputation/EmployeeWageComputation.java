@@ -3,6 +3,8 @@ public class EmployeeWageComputation{
 
     private final int WAGE_PER_HOUR=20;
     private final int FULL_TIME=8;
+    private final int PART_TIME=4;
+
 
     public static void welcomeMessage(){
         System.out.println("Welcome to Employee Wage Computation Program");
@@ -18,7 +20,7 @@ public class EmployeeWageComputation{
     }
 
     public int getDailyWage(){
-        int workingHourPerDay=FULL_TIME;
+        int workingHourPerDay=PART_TIME;
         return workingHourPerDay*this.WAGE_PER_HOUR;
     }
 
