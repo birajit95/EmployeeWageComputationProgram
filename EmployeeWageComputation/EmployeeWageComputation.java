@@ -1,5 +1,5 @@
+import java.util.Random;
 public class EmployeeWageComputation{
-    
 
     private final int WAGE_PER_HOUR=20;
     private final int FULL_TIME=8;
@@ -18,9 +18,26 @@ public class EmployeeWageComputation{
             return "absent";
         }
     }
+    public int getWorkingHourPerDay(){
+        int workingHourPerDay;
+        Random random = new Random();
+        int status = random.nextInt(2);
+        switch(status){
+            case 0:
+                  workingHourPerDay=FULL_TIME;
+                  break;
+            case 1:
+                  workingHourPerDay=PART_TIME;
+                  break;
+            default:
+                   workingHourPerDay=0;
+                   break;           
+           }
+           return workingHourPerDay;
+    }
 
     public int getDailyWage(){
-        int workingHourPerDay=PART_TIME;
+        int workingHourPerDay=this.getWorkingHourPerDay();
         return workingHourPerDay*this.WAGE_PER_HOUR;
     }
 
