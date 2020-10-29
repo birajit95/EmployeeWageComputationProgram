@@ -1,11 +1,8 @@
 import java.util.Random;
 public class EmployeeWageComputation{
 
-    private static final int WAGE_PER_HOUR=20;
     private static final int FULL_TIME=8;
     private static final int PART_TIME=4;
-    private static final int MAX_NO_OF_DAYS=20;
-    private static final int MAX_WORKING_HOURS=160;
     private static final int MAX_DAYS_IN_MONTH=30;
     
     public static void welcomeMessage(){
@@ -39,38 +36,34 @@ public class EmployeeWageComputation{
            return workingHourPerDay;
     }
 
-    public static int getDailyWage(int perDayWorkHour){
+    public static int getDailyWage(int perDayWorkHour, int wagePerHour){
         int workingHourPerDay=perDayWorkHour;
-        return workingHourPerDay*WAGE_PER_HOUR;
+        return workingHourPerDay*wagePerHour;
     }
 
-    public static int getMonthlyWage(){
-        return getDailyWage(getWorkingHourPerDay())*MAX_NO_OF_DAYS;
-    }
-
-
-    public static void calculateEmpWage(){
+   
+    public static void calculateEmpWage(String company, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours ){
 
         int totalWorkingHour=0;
         int totalWorkingDays=0;
         int totalDays=0;
         int totalWage=0;
         int perDayWorkHour=0;
-        int maxDaysInMonth=EmployeeWageComputation.MAX_DAYS_IN_MONTH;
 
-        while(totalWorkingHour<MAX_WORKING_HOURS && totalWorkingDays<MAX_NO_OF_DAYS && totalDays<maxDaysInMonth){
+        while(totalWorkingHour<maxNoOfWorkingHours && totalWorkingDays<maxNoOfworkingDays && totalDays<MAX_DAYS_IN_MONTH){
             totalDays++;
             if(getAttendance().equals("present")){
                 totalWorkingDays++;
                 perDayWorkHour=getWorkingHourPerDay();
                 totalWorkingHour=totalWorkingHour+perDayWorkHour;
-                totalWage=totalWage+getDailyWage(perDayWorkHour);
+                totalWage=totalWage+getDailyWage(perDayWorkHour, wagePerHour);
                 
-                System.out.println("Day-"+totalDays+"=> working hours : "+perDayWorkHour);
             }
 
         }
-        System.out.println("Total Wage: "+totalWage); 
+        System.out.println("Company Name : "+company);
+        System.out.println("Total Wage : "+totalWage +" and Wage per hour : "+wagePerHour); 
+
     }
 
     
@@ -78,7 +71,11 @@ public class EmployeeWageComputation{
     public static void main(String[] args){
         EmployeeWageComputation.welcomeMessage();
         
-        EmployeeWageComputation.calculateEmpWage();
+        EmployeeWageComputation.calculateEmpWage("Bridgelab",50,24,192);
+        EmployeeWageComputation.calculateEmpWage("Quantifier",100,20,160);
+        EmployeeWageComputation.calculateEmpWage("MindTree",150,24,192);
+
+
 }
 
 }
