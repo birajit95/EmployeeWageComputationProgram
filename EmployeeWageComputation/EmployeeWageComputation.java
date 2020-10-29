@@ -1,18 +1,18 @@
 import java.util.Random;
 public class EmployeeWageComputation{
 
-    private final int WAGE_PER_HOUR=20;
-    private final int FULL_TIME=8;
-    private final int PART_TIME=4;
-    private final int MAX_NO_OF_DAYS=20;
-    private final int MAX_WORKING_HOURS=160;
+    private static final int WAGE_PER_HOUR=20;
+    private static final int FULL_TIME=8;
+    private static final int PART_TIME=4;
+    private static final int MAX_NO_OF_DAYS=20;
+    private static final int MAX_WORKING_HOURS=160;
     private static final int MAX_DAYS_IN_MONTH=30;
     
     public static void welcomeMessage(){
         System.out.println("Welcome to Employee Wage Computation Program");
     }
 
-    public String getAttendance(){
+    public static String getAttendance(){
         if(Math.random()*10>=3){
             return "present";
         }
@@ -21,7 +21,7 @@ public class EmployeeWageComputation{
         }
     }
 
-    public int getWorkingHourPerDay(){
+    public static int getWorkingHourPerDay(){
         int workingHourPerDay;
         Random random = new Random();
         int status = random.nextInt(2);
@@ -39,20 +39,18 @@ public class EmployeeWageComputation{
            return workingHourPerDay;
     }
 
-    public int getDailyWage(int perDayWorkHour){
+    public static int getDailyWage(int perDayWorkHour){
         int workingHourPerDay=perDayWorkHour;
-        return workingHourPerDay*this.WAGE_PER_HOUR;
+        return workingHourPerDay*WAGE_PER_HOUR;
     }
 
-    public int getMonthlyWage(){
-        return this.getDailyWage(this.getWorkingHourPerDay())*this.MAX_NO_OF_DAYS;
+    public static int getMonthlyWage(){
+        return getDailyWage(getWorkingHourPerDay())*MAX_NO_OF_DAYS;
     }
-    
-    public static void main(String[] args){
-        EmployeeWageComputation.welcomeMessage();
-        
-        EmployeeWageComputation empObj = new EmployeeWageComputation();
-        
+
+
+    public static void calculateEmpWage(){
+
         int totalWorkingHour=0;
         int totalWorkingDays=0;
         int totalDays=0;
@@ -60,13 +58,13 @@ public class EmployeeWageComputation{
         int perDayWorkHour=0;
         int maxDaysInMonth=EmployeeWageComputation.MAX_DAYS_IN_MONTH;
 
-        while(totalWorkingHour<empObj.MAX_WORKING_HOURS && totalWorkingDays<empObj.MAX_NO_OF_DAYS && totalDays<maxDaysInMonth){
+        while(totalWorkingHour<MAX_WORKING_HOURS && totalWorkingDays<MAX_NO_OF_DAYS && totalDays<maxDaysInMonth){
             totalDays++;
-            if(empObj.getAttendance().equals("present")){
+            if(getAttendance().equals("present")){
                 totalWorkingDays++;
-                perDayWorkHour=empObj.getWorkingHourPerDay();
+                perDayWorkHour=getWorkingHourPerDay();
                 totalWorkingHour=totalWorkingHour+perDayWorkHour;
-                totalWage=totalWage+empObj.getDailyWage(perDayWorkHour);
+                totalWage=totalWage+getDailyWage(perDayWorkHour);
                 
                 System.out.println("Day-"+totalDays+"=> working hours : "+perDayWorkHour);
             }
@@ -74,4 +72,13 @@ public class EmployeeWageComputation{
         }
         System.out.println("Total Wage: "+totalWage); 
     }
+
+    
+    
+    public static void main(String[] args){
+        EmployeeWageComputation.welcomeMessage();
+        
+        EmployeeWageComputation.calculateEmpWage();
+}
+
 }
