@@ -38,7 +38,13 @@ class CompanyEmpWage{
 
 }
 
-class EmployeeWageBuilder{
+interface IcomputeEmployeWage{
+    public void addCompany(String companyName, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours);
+    public String getAttendance();
+    public void calculateEmpWage();
+    public int getWorkingHourPerDay();
+}
+class EmployeeWageBuilder implements IcomputeEmployeWage{
       
     private static final int FULL_TIME=8;
     private static final int PART_TIME=4;
@@ -50,11 +56,12 @@ class EmployeeWageBuilder{
     public EmployeeWageBuilder(){
         companyWageArray=new CompanyEmpWage[5];
     }
-
+    
+    @Override
     public void addCompany(String companyName, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours){
         companyWageArray[companyCount++]=new CompanyEmpWage(companyName, wagePerHour, maxNoOfworkingDays, maxNoOfWorkingHours);
     }
-
+    @Override
     public String getAttendance(){
         if(Math.random()*10>=3){
             return "present";
