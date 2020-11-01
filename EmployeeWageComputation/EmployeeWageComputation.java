@@ -1,27 +1,58 @@
 import java.util.Random;
 public class EmployeeWageComputation{
 
-    private static final int FULL_TIME=8;
-    private static final int PART_TIME=4;
-    private static final int MAX_DAYS_IN_MONTH=30;
+    
+    
+    public static void welcomeMessage(){
+        System.out.println("Welcome to Employee Wage Computation Program");
+    }
+    
+    public static void main(String[] args){
+        EmployeeWageComputation.welcomeMessage();
+        EmployeeWageBuilder empBuilder = new EmployeeWageBuilder();
+        empBuilder.addCompany("TCS",100,20,160);
+        empBuilder.addCompany("MindTree",150,24,192);
+        empBuilder.addCompany("Bridgelab",200,20,160);
+        empBuilder.calculateEmpWage();
+       
+}
+}
+
+
+class CompanyEmpWage{
     private final String companyName;
     private final int wagePerHour;
     private final int maxNoOfworkingDays;
     private final int maxNoOfWorkingHours;
-    
-    static int companyCount=0;
-    static String EmpWageList[] = new String[5];
 
-    public EmployeeWageComputation(String companyName, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours){
+    public CompanyEmpWage(String companyName, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours){
            this.companyName=companyName;
            this.wagePerHour=wagePerHour;
            this.maxNoOfworkingDays=maxNoOfworkingDays;
            this.maxNoOfWorkingHours=maxNoOfWorkingHours;
     }
+    String getCompanyName(){return this.companyName;}
+    int getWagePerHour(){return this.wagePerHour;}
+    int getMaxWorkingHours(){return this.maxNoOfWorkingHours;}
+    int getMaxWorkingDays(){return this.maxNoOfworkingDays;}
 
+}
 
-    public static void welcomeMessage(){
-        System.out.println("Welcome to Employee Wage Computation Program");
+class EmployeeWageBuilder{
+      
+    private static final int FULL_TIME=8;
+    private static final int PART_TIME=4;
+    private static final int MAX_DAYS_IN_MONTH=30;
+
+    private CompanyEmpWage companyWageArray[];
+    static int companyCount=0;
+
+    public EmployeeWageBuilder(){
+        companyWageArray=new CompanyEmpWage[5];
+    }
+
+    public void addCompany(String companyName, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours){
+        companyWageArray[companyCount++]=new CompanyEmpWage(companyName, wagePerHour, maxNoOfworkingDays, maxNoOfWorkingHours);
     }
 
     public String getAttendance(){
@@ -58,50 +89,30 @@ public class EmployeeWageComputation{
 
    
     public void calculateEmpWage( ){
-
+        for (int i=0; i<companyCount;i++)
+        {
         int totalWorkingHour=0;
         int totalWorkingDays=0;
         int totalDays=0;
         int totalWage=0;
         int perDayWorkHour=0;
 
-        while(totalWorkingHour<this.maxNoOfWorkingHours && totalWorkingDays<this.maxNoOfworkingDays && totalDays<MAX_DAYS_IN_MONTH){
+        while(totalWorkingHour<companyWageArray[i].getMaxWorkingHours() && totalWorkingDays<companyWageArray[i].getMaxWorkingDays() && totalDays<MAX_DAYS_IN_MONTH){
             totalDays++;
             if(getAttendance().equals("present")){
                 totalWorkingDays++;
                 perDayWorkHour=getWorkingHourPerDay();
                 totalWorkingHour=totalWorkingHour+perDayWorkHour;
-                totalWage=totalWage+getDailyWage(perDayWorkHour, wagePerHour);
+                totalWage=totalWage+getDailyWage(perDayWorkHour, companyWageArray[i].getWagePerHour());
                 
             }
 
         }
-
-        EmpWageList[companyCount++]=this.companyName+":"+String.valueOf(totalWage);
+    System.out.println(companyWageArray[i].getCompanyName()+" : "+String.valueOf(totalWage));   
 
     }
 
-    public static void getComapnyWageList(){
-        for(int i=0; i<companyCount; i++){
-            
-                System.out.println(EmpWageList[i]);
-            }
-        
-    }
     
-    
-    
-    public static void main(String[] args){
-        EmployeeWageComputation.welcomeMessage();
-        EmployeeWageComputation BridgeLab=new EmployeeWageComputation("Bridgelab",50,24,192);
-        EmployeeWageComputation Quantifier=new EmployeeWageComputation("Quantifier",100,20,160);
-        EmployeeWageComputation MindTree=new EmployeeWageComputation("MindTree",150,24,192);
-        BridgeLab.calculateEmpWage();
-        Quantifier.calculateEmpWage();
-        MindTree.calculateEmpWage();
-        EmployeeWageComputation.getComapnyWageList();
-
-
+}
 }
 
-}
