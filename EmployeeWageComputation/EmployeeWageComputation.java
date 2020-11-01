@@ -4,12 +4,27 @@ public class EmployeeWageComputation{
     private static final int FULL_TIME=8;
     private static final int PART_TIME=4;
     private static final int MAX_DAYS_IN_MONTH=30;
+    private final String companyName;
+    private final int wagePerHour;
+    private final int maxNoOfworkingDays;
+    private final int maxNoOfWorkingHours;
     
+    static int companyCount=0;
+    static String EmpWageList[] = new String[5];
+
+    public EmployeeWageComputation(String companyName, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours){
+           this.companyName=companyName;
+           this.wagePerHour=wagePerHour;
+           this.maxNoOfworkingDays=maxNoOfworkingDays;
+           this.maxNoOfWorkingHours=maxNoOfWorkingHours;
+    }
+
+
     public static void welcomeMessage(){
         System.out.println("Welcome to Employee Wage Computation Program");
     }
 
-    public static String getAttendance(){
+    public String getAttendance(){
         if(Math.random()*10>=3){
             return "present";
         }
@@ -18,7 +33,7 @@ public class EmployeeWageComputation{
         }
     }
 
-    public static int getWorkingHourPerDay(){
+    public int getWorkingHourPerDay(){
         int workingHourPerDay;
         Random random = new Random();
         int status = random.nextInt(2);
@@ -36,13 +51,13 @@ public class EmployeeWageComputation{
            return workingHourPerDay;
     }
 
-    public static int getDailyWage(int perDayWorkHour, int wagePerHour){
+    public int getDailyWage(int perDayWorkHour, int wagePerHour){
         int workingHourPerDay=perDayWorkHour;
         return workingHourPerDay*wagePerHour;
     }
 
    
-    public static void calculateEmpWage(String company, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours ){
+    public void calculateEmpWage( ){
 
         int totalWorkingHour=0;
         int totalWorkingDays=0;
@@ -50,7 +65,7 @@ public class EmployeeWageComputation{
         int totalWage=0;
         int perDayWorkHour=0;
 
-        while(totalWorkingHour<maxNoOfWorkingHours && totalWorkingDays<maxNoOfworkingDays && totalDays<MAX_DAYS_IN_MONTH){
+        while(totalWorkingHour<this.maxNoOfWorkingHours && totalWorkingDays<this.maxNoOfworkingDays && totalDays<MAX_DAYS_IN_MONTH){
             totalDays++;
             if(getAttendance().equals("present")){
                 totalWorkingDays++;
@@ -61,19 +76,30 @@ public class EmployeeWageComputation{
             }
 
         }
-        System.out.println("Company Name : "+company);
-        System.out.println("Total Wage : "+totalWage +" and Wage per hour : "+wagePerHour); 
+
+        EmpWageList[companyCount++]=this.companyName+":"+String.valueOf(totalWage);
 
     }
 
+    public static void getComapnyWageList(){
+        for(int i=0; i<companyCount; i++){
+            
+                System.out.println(EmpWageList[i]);
+            }
+        
+    }
+    
     
     
     public static void main(String[] args){
         EmployeeWageComputation.welcomeMessage();
-        
-        EmployeeWageComputation.calculateEmpWage("Bridgelab",50,24,192);
-        EmployeeWageComputation.calculateEmpWage("Quantifier",100,20,160);
-        EmployeeWageComputation.calculateEmpWage("MindTree",150,24,192);
+        EmployeeWageComputation BridgeLab=new EmployeeWageComputation("Bridgelab",50,24,192);
+        EmployeeWageComputation Quantifier=new EmployeeWageComputation("Quantifier",100,20,160);
+        EmployeeWageComputation MindTree=new EmployeeWageComputation("MindTree",150,24,192);
+        BridgeLab.calculateEmpWage();
+        Quantifier.calculateEmpWage();
+        MindTree.calculateEmpWage();
+        EmployeeWageComputation.getComapnyWageList();
 
 
 }
