@@ -1,8 +1,6 @@
+import java.util.ArrayList;
 import java.util.Random;
 public class EmployeeWageComputation{
-
-    
-    
     public static void welcomeMessage(){
         System.out.println("Welcome to Employee Wage Computation Program");
     }
@@ -44,22 +42,22 @@ interface IcomputeEmployeWage{
     public void calculateEmpWage();
     public int getWorkingHourPerDay();
 }
+
 class EmployeeWageBuilder implements IcomputeEmployeWage{
       
     private static final int FULL_TIME=8;
     private static final int PART_TIME=4;
     private static final int MAX_DAYS_IN_MONTH=30;
 
-    private CompanyEmpWage companyWageArray[];
-    static int companyCount=0;
+
+    private ArrayList<CompanyEmpWage> companyWageList;
 
     public EmployeeWageBuilder(){
-        companyWageArray=new CompanyEmpWage[5];
+        companyWageList = new ArrayList<CompanyEmpWage>();
     }
-    
     @Override
     public void addCompany(String companyName, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours){
-        companyWageArray[companyCount++]=new CompanyEmpWage(companyName, wagePerHour, maxNoOfworkingDays, maxNoOfWorkingHours);
+        companyWageList.add(new CompanyEmpWage(companyName, wagePerHour, maxNoOfworkingDays, maxNoOfWorkingHours));
     }
     @Override
     public String getAttendance(){
@@ -96,7 +94,7 @@ class EmployeeWageBuilder implements IcomputeEmployeWage{
 
    
     public void calculateEmpWage( ){
-        for (int i=0; i<companyCount;i++)
+        for(CompanyEmpWage company : companyWageList)
         {
         int totalWorkingHour=0;
         int totalWorkingDays=0;
@@ -104,18 +102,18 @@ class EmployeeWageBuilder implements IcomputeEmployeWage{
         int totalWage=0;
         int perDayWorkHour=0;
 
-        while(totalWorkingHour<companyWageArray[i].getMaxWorkingHours() && totalWorkingDays<companyWageArray[i].getMaxWorkingDays() && totalDays<MAX_DAYS_IN_MONTH){
+        while(totalWorkingHour<company.getMaxWorkingHours() && totalWorkingDays<company.getMaxWorkingDays() && totalDays<MAX_DAYS_IN_MONTH){
             totalDays++;
             if(getAttendance().equals("present")){
                 totalWorkingDays++;
                 perDayWorkHour=getWorkingHourPerDay();
                 totalWorkingHour=totalWorkingHour+perDayWorkHour;
-                totalWage=totalWage+getDailyWage(perDayWorkHour, companyWageArray[i].getWagePerHour());
+                totalWage=totalWage+getDailyWage(perDayWorkHour, company.getWagePerHour());
                 
             }
 
         }
-    System.out.println(companyWageArray[i].getCompanyName()+" : "+String.valueOf(totalWage));   
+    System.out.println(company.getCompanyName()+" : "+String.valueOf(totalWage));   
 
     }
 
