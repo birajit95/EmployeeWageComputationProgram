@@ -13,6 +13,11 @@ public class EmployeeWageComputation{
         empBuilder.addCompany("MindTree",150,24,192);
         empBuilder.addCompany("Bridgelab",200,20,160);
         empBuilder.calculateEmpWage();
+        empBuilder.getTotalWage("Bridgelab");
+        empBuilder.getDailyWage("Bridgelab");
+        empBuilder.getTotalWage("MindTree");
+        empBuilder.getDailyWage("MindTree");
+
 
        
 }
@@ -41,6 +46,9 @@ class CompanyEmpWage{
     int getMaxWorkingDays(){return this.maxNoOfworkingDays;}
     void setTotalWage(int totalWage){ this.totalWage=totalWage;}
     void setDailyWage(Integer dailyWage){this.dailyWage.add(dailyWage); }
+    int getTotalWage(){return this.totalWage;}
+    ArrayList getDailyWage(){return this.dailyWage;}
+
     
 
 }
@@ -50,6 +58,8 @@ interface IcomputeEmployeWage{
     public String getAttendance();
     public void calculateEmpWage();
     public int getWorkingHourPerDay();
+    public void getTotalWage(String companyName);
+    public void getDailyWage(String companyName);
 }
 
 class EmployeeWageBuilder implements IcomputeEmployeWage{
@@ -130,6 +140,16 @@ class EmployeeWageBuilder implements IcomputeEmployeWage{
         company.setTotalWage(totalWage);
         totalWageMap.put(company.getCompanyName(), company);
     }    
+}
+@Override
+public void getTotalWage(String companyName){
+    System.out.println("Total Wage for "+companyName+" is "+totalWageMap.get(companyName).getTotalWage());
+}
+
+@Override
+public void getDailyWage(String companyName){
+    System.out.println("Daily Wage for "+companyName+ ": ");
+    System.out.println(totalWageMap.get(companyName).getDailyWage());
 }
 
 }
