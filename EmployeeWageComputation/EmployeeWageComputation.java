@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 public class EmployeeWageComputation{
     public static void welcomeMessage(){
@@ -12,6 +13,7 @@ public class EmployeeWageComputation{
         empBuilder.addCompany("MindTree",150,24,192);
         empBuilder.addCompany("Bridgelab",200,20,160);
         empBuilder.calculateEmpWage();
+
        
 }
 }
@@ -22,17 +24,24 @@ class CompanyEmpWage{
     private final int wagePerHour;
     private final int maxNoOfworkingDays;
     private final int maxNoOfWorkingHours;
+    private int totalWage;
+
+    private ArrayList<Integer> dailyWage;
 
     public CompanyEmpWage(String companyName, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours){
            this.companyName=companyName;
            this.wagePerHour=wagePerHour;
            this.maxNoOfworkingDays=maxNoOfworkingDays;
            this.maxNoOfWorkingHours=maxNoOfWorkingHours;
+           dailyWage=new ArrayList<>();
     }
     String getCompanyName(){return this.companyName;}
     int getWagePerHour(){return this.wagePerHour;}
     int getMaxWorkingHours(){return this.maxNoOfWorkingHours;}
     int getMaxWorkingDays(){return this.maxNoOfworkingDays;}
+    void setTotalWage(int totalWage){ this.totalWage=totalWage;}
+    void setDailyWage(Integer dailyWage){this.dailyWage.add(dailyWage); }
+    
 
 }
 
@@ -51,9 +60,11 @@ class EmployeeWageBuilder implements IcomputeEmployeWage{
 
 
     private ArrayList<CompanyEmpWage> companyWageList;
+    private HashMap<String, CompanyEmpWage> totalWageMap;
 
     public EmployeeWageBuilder(){
         companyWageList = new ArrayList<CompanyEmpWage>();
+        totalWageMap = new HashMap<>();
     }
     @Override
     public void addCompany(String companyName, int wagePerHour, int maxNoOfworkingDays, int maxNoOfWorkingHours){
@@ -101,6 +112,7 @@ class EmployeeWageBuilder implements IcomputeEmployeWage{
         int totalDays=0;
         int totalWage=0;
         int perDayWorkHour=0;
+        int dailyWage=0;
 
         while(totalWorkingHour<company.getMaxWorkingHours() && totalWorkingDays<company.getMaxWorkingDays() && totalDays<MAX_DAYS_IN_MONTH){
             totalDays++;
@@ -108,16 +120,17 @@ class EmployeeWageBuilder implements IcomputeEmployeWage{
                 totalWorkingDays++;
                 perDayWorkHour=getWorkingHourPerDay();
                 totalWorkingHour=totalWorkingHour+perDayWorkHour;
-                totalWage=totalWage+getDailyWage(perDayWorkHour, company.getWagePerHour());
+                dailyWage=getDailyWage(perDayWorkHour, company.getWagePerHour());
+                totalWage=totalWage+dailyWage;
+                company.setDailyWage(dailyWage);
                 
             }
 
         }
-    System.out.println(company.getCompanyName()+" : "+String.valueOf(totalWage));   
-
-    }
-
-    
+        company.setTotalWage(totalWage);
+        totalWageMap.put(company.getCompanyName(), company);
+    }    
 }
+
 }
 
